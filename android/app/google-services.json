@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "270381768126",
+    "project_id": "pefarm-b5c2f",
+    "storage_bucket": "pefarm-b5c2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270381768126:android:848857d83ad093d1522def",
+        "android_client_info": {
+          "package_name": "com.app.pe_farm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270381768126-p6pos84vkli5tttbfpgejk8icqo3pk6b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.pe_farm",
+            "certificate_hash": "b2f12cc5b34b67b894baada380af906876733401"
+          }
+        },
+        {
+          "client_id": "270381768126-eue4pdnfmpfech5skv29bhfc55d3h1e5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbjihcYz5lt2-yPlu2S-AqI43D0t6j1PI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270381768126-eue4pdnfmpfech5skv29bhfc55d3h1e5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
