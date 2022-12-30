@@ -15,7 +15,7 @@ class HarvestScreen extends StatelessWidget {
       child: Container(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Center(
@@ -54,7 +54,7 @@ class HarvestScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             const ExpandedHarvestList()

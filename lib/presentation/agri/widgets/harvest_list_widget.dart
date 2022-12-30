@@ -32,11 +32,15 @@ class ExpandedHarvestList extends StatelessWidget {
                           snapshot.data!.docs[index].reference;
                       MonthModel model =
                           MonthModel.fromMap(snapshot.data!.docs[index].data());
-                      return ExpandableMonthTile(
-                        reference: reference,
-                        model: model,
-                        index: index,
-                      );
+
+                      if (model.totalNos != 0) {
+                        return ExpandableMonthTile(
+                          reference: reference,
+                          model: model,
+                          index: index,
+                        );
+                      }
+                      return const SizedBox();
                     },
                   ),
                 );
