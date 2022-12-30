@@ -60,6 +60,7 @@ class AddHarvestScreen extends StatelessWidget {
                     helpText: 'Select a date',
                   );
                   if (newDate != null) {
+                    context.read<HarvestBloc>().add(SetCompletedToFalse());
                     // ignore: use_build_context_synchronously
                     context.read<HarvestBloc>().add(ChangeDate(date: newDate));
                   }

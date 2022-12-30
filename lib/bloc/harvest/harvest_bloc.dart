@@ -32,5 +32,9 @@ class HarvestBloc extends Bloc<HarvestEvent, HarvestState> {
       await HarvestFirestore()
           .deleteHarvestFromDb(ref: event.reference, nos: event.nos);
     });
+    on<SetCompletedToFalse>((event, emit) {
+      // TODO: implement event handler
+      emit(state.copyWith(isCompleted: false));
+    });
   }
 }

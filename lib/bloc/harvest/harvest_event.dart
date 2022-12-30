@@ -29,3 +29,6 @@ class DeleteHarvest extends HarvestEvent {
     required this.nos,
   });
 }
+
+
+class SetCompletedToFalse extends HarvestEvent{}
