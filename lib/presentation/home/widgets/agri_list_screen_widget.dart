@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../bloc/agri/agri_bloc.dart';
 import '../../../bloc/agri_screen/agri_screen_bloc.dart';
 import '../../../constants/db_names.dart';
 import '../../../models/agri_model.dart';
 import '../../agri/agri_screen.dart';
+import '../../widgets/alert_dialouge.dart';
 
 class AgriListScreenWidget extends StatelessWidget {
   const AgriListScreenWidget({
@@ -35,6 +37,32 @@ class AgriListScreenWidget extends StatelessWidget {
                     AgriModel.fromMap(snapshot.data!.docs[index].data());
                 DateTime date = agriModel.date;
                 return ListTile(
+                  onLongPress: () {
+                    showDialog(
+                        context: context,
+                        builder: (builder) {
+                          return AlertDialogWidget(
+                            title: "Do you want to delete",
+                            description:
+                                "Are you sure you want to delete this FARM",
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Cancel")),
+                              TextButton(
+                                  onPressed: () async {
+                                    context.read<AgriBloc>().add(DeleteAgri(
+                                        reference: snapshot
+                                            .data!.docs[index].reference));
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("OK")),
+                            ],
+                          );
+                        });
+                  },
                   onTap: () {
                     context.read<AgriScreenBloc>().add(AddReference(
                         reference: snapshot.data!.docs[index].reference));

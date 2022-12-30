@@ -11,7 +11,11 @@ class HarvestBloc extends Bloc<HarvestEvent, HarvestState> {
   HarvestBloc()
       : super(HarvestInitial(null, DateTime.now(), false, false, "", false)) {
     on<ChangeDate>((event, emit) {
-      emit(state.copyWith(date: event.date));
+      emit(state.copyWith(
+          date: event.date,
+          isCompleted: false,
+          isFailed: false,
+          isLoading: false));
     });
     on<AddHarvest>(
       (event, emit) async {
@@ -24,5 +28,9 @@ class HarvestBloc extends Bloc<HarvestEvent, HarvestState> {
             state: state);
       },
     );
+    on<DeleteHarvest>((event, emit) async {
+      await HarvestFirestore()
+          .deleteHarvestFromDb(ref: event.reference, nos: event.nos);
+    });
   }
 }

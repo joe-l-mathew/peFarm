@@ -5,11 +5,13 @@ class AgriModel {
   double income;
   double expense;
   DateTime date;
+  double nos;
   AgriModel({
     required this.name,
     required this.income,
     required this.expense,
     required this.date,
+    required this.nos,
   });
 
   AgriModel copyWith({
@@ -17,12 +19,14 @@ class AgriModel {
     double? income,
     double? expense,
     DateTime? date,
+    double? nos,
   }) {
     return AgriModel(
       name: name ?? this.name,
       income: income ?? this.income,
       expense: expense ?? this.expense,
       date: date ?? this.date,
+      nos: nos ?? this.nos,
     );
   }
 
@@ -33,6 +37,7 @@ class AgriModel {
     result.addAll({'income': income});
     result.addAll({'expense': expense});
     result.addAll({'date': date.millisecondsSinceEpoch});
+    result.addAll({'nos': nos});
 
     return result;
   }
@@ -43,6 +48,7 @@ class AgriModel {
       income: map['income']?.toDouble() ?? 0.0,
       expense: map['expense']?.toDouble() ?? 0.0,
       date: DateTime.fromMillisecondsSinceEpoch(map['date']),
+      nos: map['nos']?.toDouble() ?? 0.0,
     );
   }
 
@@ -53,7 +59,7 @@ class AgriModel {
 
   @override
   String toString() {
-    return 'AgriModel(name: $name, income: $income, expense: $expense, date: $date)';
+    return 'AgriModel(name: $name, income: $income, expense: $expense, date: $date, nos: $nos)';
   }
 
   @override
@@ -64,11 +70,16 @@ class AgriModel {
         other.name == name &&
         other.income == income &&
         other.expense == expense &&
-        other.date == date;
+        other.date == date &&
+        other.nos == nos;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^ income.hashCode ^ expense.hashCode ^ date.hashCode;
+    return name.hashCode ^
+        income.hashCode ^
+        expense.hashCode ^
+        date.hashCode ^
+        nos.hashCode;
   }
 }

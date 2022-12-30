@@ -16,9 +16,16 @@ class ChangeDate extends HarvestEvent {
 class AddHarvest extends HarvestEvent {
   final double nos;
   final DocumentReference reference;
-  
 
   const AddHarvest({required this.nos, required this.reference});
 }
 
+class DeleteHarvest extends HarvestEvent {
+  final DocumentReference reference;
+  final double nos;
 
+  DeleteHarvest({
+    required this.reference,
+    required this.nos,
+  });
+}

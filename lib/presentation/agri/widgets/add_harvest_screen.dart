@@ -54,7 +54,7 @@ class AddHarvestScreen extends StatelessWidget {
                   final DateTime? newDate = await showDatePicker(
                     // initialEntryMode: DatePickerEntryMode.calendar,
                     context: context,
-                    initialDate: DateTime(2020, 11, 17),
+                    initialDate: DateTime.now(),
                     firstDate: DateTime(2017, 1),
                     lastDate: DateTime.now(),
                     helpText: 'Select a date',
@@ -72,13 +72,15 @@ class AddHarvestScreen extends StatelessWidget {
         ),
         BlocListener<HarvestBloc, HarvestState>(
           listener: (context, state) {
-            if (state.isFailed || state.isCompleted) {
+            print("is completed:${state.isCompleted}");
+            print("is failed:${state.isFailed}");
+            if (state.isFailed == true || state.isCompleted == true) {
               Navigator.pop(context);
               controller.clear();
               if (state.isFailed) {
                 showSnackbar(context, "Some Error Occured");
               }
-              if (state.isCompleted) {
+              if (state.isCompleted == true) {
                 showSnackbar(context, "Added Successfully");
               }
             }

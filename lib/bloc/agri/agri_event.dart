@@ -12,3 +12,9 @@ class AddAgri extends AgriEvent {
 
   AddAgri({required this.agriName});
 }
+
+class DeleteAgri extends AgriEvent {
+  final DocumentReference reference;
+
+  DeleteAgri({required this.reference});
+}

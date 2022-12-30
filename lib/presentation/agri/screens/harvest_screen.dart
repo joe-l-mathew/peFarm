@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../bloc/agri_screen/agri_screen_bloc.dart';
 import '../../widgets/text_widget.dart';
 import '../widgets/harvest_list_widget.dart';
 
@@ -25,11 +27,29 @@ class HarvestScreen extends StatelessWidget {
                     gradient: const LinearGradient(
                         colors: [Color(0xff4338CA), Color(0xff6D28D9)])),
                 child: Center(
-                  child: TextWidget(
-                    text: "TOTAL : 1000",
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                  child: BlocBuilder<AgriScreenBloc, AgriScreenState>(
+                    builder: (context, state) {
+                      return StreamBuilder(
+                          stream: state.reference!.snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData && snapshot.data != null) {
+                              var doc =
+                                  snapshot.data!.data() as Map<String, dynamic>;
+                              return TextWidget(
+                                text: "TOTAL : ${doc['nos']}",
+                                fontSize: 30,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              );
+                            }
+                            return const TextWidget(
+                              text: "TOTAL : 0",
+                              fontSize: 30,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            );
+                          });
+                    },
                   ),
                 ),
               ),

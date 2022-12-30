@@ -26,4 +26,9 @@ class FirestoreAgri {
       );
     });
   }
+
+  //delete an agri from firestore
+  Future<void> deleteAgriFromFirestore({required DocumentReference ref}) async {
+    await FirebaseFirestore.instance.doc(ref.path).delete();
+  }
 }
