@@ -6,6 +6,7 @@ import 'screens/expense_screen.dart';
 import 'screens/harvest_screen.dart';
 import 'screens/income_screen.dart';
 import 'widgets/add_harvest_screen.dart';
+import 'widgets/add_income_screen.dart';
 
 class AgriScreen extends StatelessWidget {
   AgriScreen({super.key});
@@ -23,6 +24,9 @@ class AgriScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = TextEditingController();
+    final amountController = TextEditingController();
+    final titleController = TextEditingController();
+
     return BlocBuilder<AgriScreenBloc, AgriScreenState>(
       builder: (context, state) {
         return Scaffold(
@@ -49,6 +53,21 @@ class AgriScreen extends StatelessWidget {
                     builder: (builder) {
                       return AddHarvestScreen(
                         controller: controller,
+                      );
+                    });
+              }
+              if (state.pageIndex == 1) {
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(25.0),
+                      ),
+                    ),
+                    context: context,
+                    builder: (builder) {
+                      return AddIncomeScreen(
+                        incomeController: amountController,
+                        titleController: titleController,
                       );
                     });
               }

@@ -8,6 +8,7 @@ import 'bloc/agri/agri_bloc.dart';
 import 'bloc/agri_screen/agri_screen_bloc.dart';
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/harvest/harvest_bloc.dart';
+import 'bloc/income/income_bloc.dart';
 import 'observer.dart';
 import 'presentation/auth/phone_number_auth_screen.dart';
 import 'presentation/home/home_screen.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc()),
+        BlocProvider<IncomeBloc>(create: (BuildContext context) => IncomeBloc()),
         BlocProvider<AgriBloc>(create: (BuildContext context) => AgriBloc()),
         BlocProvider<HarvestBloc>(
             create: (BuildContext context) => HarvestBloc()),
