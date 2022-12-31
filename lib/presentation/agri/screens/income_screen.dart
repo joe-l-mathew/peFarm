@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/agri_screen/agri_screen_bloc.dart';
+import '../../../bloc/income/income_bloc.dart';
 import '../../../constants/date.dart';
 import '../../../constants/db_names.dart';
 import '../../../models/income_model.dart';
 import '../../../models/month_model.dart';
+import '../../widgets/alert_dialouge.dart';
 import '../../widgets/text_widget.dart';
 
 class IncomeScreen extends StatelessWidget {
@@ -82,10 +84,12 @@ class IncomeScreen extends StatelessWidget {
                             .collection(incomeCollection)
                             .doc("${model.date.year}${model.date.month}")
                             .collection(incomeCollection)
+                            .orderBy('date', descending: true)
                             .limit(10)
                             .snapshots(),
                         builder: (context, snapshot1) {
-                          if (snapshot1.hasData) {
+                          if (snapshot1.hasData &&
+                              snapshot1.data!.docs.length > 0) {
                             return ExpansionTile(
                                 initiallyExpanded: index == 0,
                                 title: Text(
@@ -99,10 +103,45 @@ class IncomeScreen extends StatelessWidget {
                                     subtitle: Text(
                                         "${incomeModel.date.day}/${incomeModel.date.month}/${incomeModel.date.year}"),
                                     trailing: Text("₹ ${incomeModel.amount}"),
+                                    onLongPress: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (builder) {
+                                            return AlertDialogWidget(
+                                              title: "Do you want to delete",
+                                              description:
+                                                  "Are you sure you want to delete this FARM",
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text("Cancel")),
+                                                TextButton(
+                                                    onPressed: () async {
+                                                      Navigator.pop(context);
+                                                      context
+                                                          .read<IncomeBloc>()
+                                                          .add(DeleteIncome(
+                                                              reference:
+                                                                  snapshot1
+                                                                      .data!
+                                                                      .docs[
+                                                                          index]
+                                                                      .reference,
+                                                              amount:
+                                                                  incomeModel
+                                                                      .amount));
+                                                    },
+                                                    child: Text("OK")),
+                                              ],
+                                            );
+                                          });
+                                    },
                                   );
                                 }));
                           } else {
-                            return Text("No Data");
+                            return SizedBox();
                           }
                         });
                   },

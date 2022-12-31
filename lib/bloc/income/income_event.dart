@@ -22,3 +22,13 @@ class UpdateDate extends IncomeEvent {
 
   const UpdateDate({required this.date});
 }
+
+class DeleteIncome extends IncomeEvent {
+  final DocumentReference reference;
+  final double amount;
+
+  const DeleteIncome({
+    required this.reference,
+    required this.amount,
+  });
+}

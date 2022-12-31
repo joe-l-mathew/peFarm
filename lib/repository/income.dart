@@ -45,5 +45,20 @@ class IncomeFirestore {
     emit(state.copyWith(isLoading: false, isCompleted: true));
   }
 
-  Future<void> deleteIncomeFromFirestore() async {}
+  Future<void> deleteIncomeFromFirestore(
+      {DocumentReference? reference, required double amount}) async {
+    //deleting file
+    await reference!.delete();
+    //deleteing from parent total
+    var value = await reference.parent.parent!.parent.parent!.get();
+    Map<String, dynamic> mapVal = value.data() as Map<String, dynamic>;
+    await reference.parent.parent!.parent.parent!
+        .update({"income": mapVal['income'] - amount});
+//deliting from total
+    var value2 =
+        await reference.parent.parent!.parent.parent!.parent.parent!.get();
+    Map<String, dynamic> mapVal2 = value2.data() as Map<String, dynamic>;
+    await reference.parent.parent!.parent.parent!.parent.parent!
+        .update({"income": mapVal2['income'] - amount});
+  }
 }
