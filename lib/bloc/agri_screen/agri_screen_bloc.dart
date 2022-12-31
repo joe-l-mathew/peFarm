@@ -6,14 +6,14 @@ part 'agri_screen_event.dart';
 part 'agri_screen_state.dart';
 
 class AgriScreenBloc extends Bloc<AgriScreenEvent, AgriScreenState> {
-  AgriScreenBloc() : super(AgriScreenInitial(null, 0)) {
+  AgriScreenBloc() : super(const AgriScreenInitial(null, 0)) {
     on<AddReference>((event, emit) {
-      // TODO: implement event handler
+      // ignore: todo
       emit(state.copyWith(reference: event.reference));
     });
 
     on<AddBottomIndex>((event, emit) {
-      // TODO: implement event handler
+      // ignore: todo
       emit(state.copyWith(pageIndex: event.bottomIndex));
     });
   }

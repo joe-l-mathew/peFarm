@@ -21,22 +21,7 @@ class HomeScreen extends StatelessWidget {
         .doc(FirebaseAuth.instance.currentUser!.uid);
     List<Widget> coursalItems = [
       //year
-      StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection(userCollection)
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection("Year")
-            .snapshots(),
-        builder: (context, snapshot) {
-          return HomeCursolTile(
-            width: width,
-            heading: "heading",
-            income: '50000',
-            expense: '30000',
-            balance: '20000',
-          );
-        },
-      ),
+
       //Total Home Page Tile
       StreamBuilder(
           stream: ref.snapshots(),
@@ -59,12 +44,6 @@ class HomeScreen extends StatelessWidget {
                   balance: "balance");
             }
           }),
-      HomeCursolTile(
-          width: width,
-          heading: "2022",
-          income: "income",
-          expense: "expense",
-          balance: "balance"),
     ];
     return Scaffold(
       body: StreamBuilder(
@@ -87,6 +66,16 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Center(
                   child: CarouselSliderWidget(coursalItems: coursalItems),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: TextWidget(text: "YOUR FARM", fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 AgriListScreenWidget(ref: ref),
               ],

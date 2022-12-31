@@ -9,9 +9,9 @@ part 'agri_event.dart';
 part 'agri_state.dart';
 
 class AgriBloc extends Bloc<AgriEvent, AgriState> {
-  AgriBloc() : super(AgriInitial(null, false, false)) {
+  AgriBloc() : super(const AgriInitial(null, false, false)) {
     on<AddAgri>((event, emit) async {
-      // TODO: implement event handler
+      // 
       // start loading
       emit(state.copyWith(isLoading: true));
       //call repo to add agri
@@ -27,8 +27,8 @@ class AgriBloc extends Bloc<AgriEvent, AgriState> {
 
     // delete agri
     on<DeleteAgri>((event, emit) async {
-      // TODO: implement event handler
-      await FirestoreAgri().deleteAgriFromFirestore(ref: event.reference);
+      // 
+      await FirestoreAgri().deleteAgriFromFirestore(ref: event.reference,expense: event.expense,income: event.income);
     });
   }
 }

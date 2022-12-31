@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/agri_screen/agri_screen_bloc.dart';
@@ -21,14 +19,14 @@ class AddIncomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        Text(
+        const Text(
           "ADD INCOME",
           style: TextStyle(fontSize: 20),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Padding(
@@ -36,7 +34,7 @@ class AddIncomeScreen extends StatelessWidget {
           child: TextFormField(
             controller: incomeController,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 border: OutlineInputBorder(), hintText: "Amount"),
           ),
         ),
@@ -45,7 +43,7 @@ class AddIncomeScreen extends StatelessWidget {
           child: TextFormField(
             controller: titleController,
             keyboardType: TextInputType.text,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 border: OutlineInputBorder(), hintText: "Title"),
           ),
         ),
@@ -79,7 +77,7 @@ class AddIncomeScreen extends StatelessWidget {
                 icon: const Icon(Icons.edit))
           ],
         ),
-        Spacer(),
+        const Spacer(),
         BlocBuilder<AgriScreenBloc, AgriScreenState>(
           builder: (context, agriState) {
             return BlocBuilder<IncomeBloc, IncomeState>(
@@ -89,27 +87,35 @@ class AddIncomeScreen extends StatelessWidget {
                     loadingText: "ADDING",
                     isLoading: state.isLoading,
                     onPressed: () {
-                      if (incomeController.text.isNotEmpty &&
-                          titleController.text.isNotEmpty) {
+                      try {
+                        double.parse(incomeController.text);
+                        if (incomeController.text.isNotEmpty &&
+                            titleController.text.isNotEmpty) {
+                          Navigator.pop(context);
+                          context.read<IncomeBloc>().add(AddIncome(
+                              model: IncomeModel(
+                                  amount: double.parse(incomeController.text),
+                                  title: titleController.text,
+                                  date: state.date),
+                              reference: agriState.reference!));
+                          incomeController.clear();
+                          titleController.clear();
+                        } else {
+                          incomeController.clear();
+                          titleController.clear();
+                          Navigator.pop(context);
+                          showSnackbar(context, "Please Fill All Fields");
+                        }
+                      } catch (e) {
                         Navigator.pop(context);
-                        context.read<IncomeBloc>().add(AddIncome(
-                            model: IncomeModel(
-                                amount: double.parse(incomeController.text),
-                                title: titleController.text,
-                                date: state.date),
-                            reference: agriState.reference!));
-                        incomeController.clear();
-                        titleController.clear();
-                      } else {
-                        Navigator.pop(context);
-                        showSnackbar(context, "Please Fill All Fields");
+                        showSnackbar(context, "Invalid Input");
                       }
                     });
               },
             );
           },
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         )
       ],

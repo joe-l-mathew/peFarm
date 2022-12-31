@@ -15,13 +15,25 @@ class IncomeFirestore {
   }) async {
     double total = 0;
     double insideTotal = 0;
+    double monthTotal = 0;
     //adding the data to db
-    print(
-        "-------------------------------------${model.date.year}${model.date.month}");
+
+    try {
+      var get = await reference
+          .collection(incomeCollection)
+          .doc("${model.date.year}${model.date.month}")
+          .get();
+      if (get.exists) {
+        var getData = get.data() as Map<String, dynamic>;
+        monthTotal = getData['amount'];
+      }
+    } catch (e) {}
+
     await reference
         .collection(incomeCollection)
         .doc("${model.date.year}${model.date.month}")
-        .set(DateModel(date: model.date).toMap());
+        .set(DateModel(date: model.date, amount: monthTotal + model.amount)
+            .toMap());
     await reference
         .collection(incomeCollection)
         .doc("${model.date.year}${model.date.month}")
@@ -47,8 +59,18 @@ class IncomeFirestore {
 
   Future<void> deleteIncomeFromFirestore(
       {DocumentReference? reference, required double amount}) async {
+    double monthTotal = 0;
+    try {
+      var get = await reference!.parent.parent!.get();
+      if (get.exists) {
+        var getData = get.data() as Map<String, dynamic>;
+        monthTotal = getData['amount'];
+      }
+    } catch (e) {}
+    //updating month amount
+    await reference!.parent.parent!.update({'amount': monthTotal - amount});
     //deleting file
-    await reference!.delete();
+    await reference.delete();
     //deleteing from parent total
     var value = await reference.parent.parent!.parent.parent!.get();
     Map<String, dynamic> mapVal = value.data() as Map<String, dynamic>;

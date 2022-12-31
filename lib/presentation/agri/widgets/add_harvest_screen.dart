@@ -97,9 +97,16 @@ class AddHarvestScreen extends StatelessWidget {
                     loadingText: "ADDING..",
                     isLoading: state.isLoading,
                     onPressed: () {
-                      context.read<HarvestBloc>().add(AddHarvest(
-                          nos: double.parse(controller.text),
-                          reference: stateAgri.reference!));
+                      try {
+                        double.parse(controller.text);
+                        context.read<HarvestBloc>().add(AddHarvest(
+                            nos: double.parse(controller.text),
+                            reference: stateAgri.reference!));
+                      } catch (e) {
+                        controller.clear();
+                        Navigator.pop(context);
+                        showSnackbar(context, "Invalid Input");
+                      }
                     });
               },
             );

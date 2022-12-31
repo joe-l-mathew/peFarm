@@ -8,7 +8,7 @@ import '../../../models/expense_model.dart';
 import '../../widgets/loading_button_widget.dart';
 
 class AddExpenseScreen extends StatelessWidget {
-  AddExpenseScreen(
+  const AddExpenseScreen(
       {super.key,
       required this.incomeController,
       required this.titleController});
@@ -19,14 +19,14 @@ class AddExpenseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        Text(
+        const Text(
           "ADD EXPENSE",
           style: TextStyle(fontSize: 20),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Padding(
@@ -34,7 +34,7 @@ class AddExpenseScreen extends StatelessWidget {
           child: TextFormField(
             controller: incomeController,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 border: OutlineInputBorder(), hintText: "Amount"),
           ),
         ),
@@ -43,7 +43,7 @@ class AddExpenseScreen extends StatelessWidget {
           child: TextFormField(
             controller: titleController,
             keyboardType: TextInputType.text,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 border: OutlineInputBorder(), hintText: "Title"),
           ),
         ),
@@ -77,7 +77,7 @@ class AddExpenseScreen extends StatelessWidget {
                 icon: const Icon(Icons.edit))
           ],
         ),
-        Spacer(),
+        const Spacer(),
         BlocBuilder<AgriScreenBloc, AgriScreenState>(
           builder: (context, agriState) {
             return BlocBuilder<ExpenseBloc, ExpenseState>(
@@ -87,27 +87,35 @@ class AddExpenseScreen extends StatelessWidget {
                     loadingText: "ADDING",
                     isLoading: state.isLoading,
                     onPressed: () {
-                      if (incomeController.text.isNotEmpty &&
-                          titleController.text.isNotEmpty) {
-                        Navigator.pop(context);
-                        context.read<ExpenseBloc>().add(AddExpense(
-                            model: ExpenseModel(
-                                amount: double.parse(incomeController.text),
-                                title: titleController.text,
-                                date: state.date),
-                            reference: agriState.reference!));
+                      try {
+                        double.parse(incomeController.text);
+                        if (incomeController.text.isNotEmpty &&
+                            titleController.text.isNotEmpty) {
+                          Navigator.pop(context);
+                          context.read<ExpenseBloc>().add(AddExpense(
+                              model: ExpenseModel(
+                                  amount: double.parse(incomeController.text),
+                                  title: titleController.text,
+                                  date: state.date),
+                              reference: agriState.reference!));
+                          incomeController.clear();
+                          titleController.clear();
+                        } else {
+                          Navigator.pop(context);
+                          showSnackbar(context, "Please Fill All Fields");
+                        }
+                      } catch (e) {
                         incomeController.clear();
                         titleController.clear();
-                      } else {
                         Navigator.pop(context);
-                        showSnackbar(context, "Please Fill All Fields");
+                        showSnackbar(context, "Invalid Input");
                       }
                     });
               },
             );
           },
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         )
       ],

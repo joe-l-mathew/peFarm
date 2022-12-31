@@ -28,12 +28,12 @@ class AgriListScreenWidget extends StatelessWidget {
           if (snapshot.hasData && snapshot.data != null) {
             if (snapshot.data!.docs.isEmpty) {
               return Column(
-                children: [
-                  SizedBox(
+                children: const[
+                   SizedBox(
                     height: 20,
                   ),
-                  LinearProgressIndicator(),
-                  Text("NO DATA FOUND")
+                   LinearProgressIndicator(),
+                   Text("NO DATA FOUND")
                 ],
               );
             }
@@ -46,54 +46,66 @@ class AgriListScreenWidget extends StatelessWidget {
                 AgriModel agriModel =
                     AgriModel.fromMap(snapshot.data!.docs[index].data());
                 DateTime date = agriModel.date;
-                return ListTile(
-                  onLongPress: () {
-                    showDialog(
-                        context: context,
-                        builder: (builder) {
-                          return AlertDialogWidget(
-                            title: "Do you want to delete",
-                            description:
-                                "Are you sure you want to delete this FARM",
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Cancel")),
-                              TextButton(
-                                  onPressed: () async {
-                                    context.read<AgriBloc>().add(DeleteAgri(
-                                        reference: snapshot
-                                            .data!.docs[index].reference));
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("OK")),
-                            ],
-                          );
-                        });
-                  },
-                  onTap: () {
-                    context.read<AgriScreenBloc>().add(AddReference(
-                        reference: snapshot.data!.docs[index].reference));
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AgriScreen()));
-                  },
-                  title: Text(agriModel.name),
-                  subtitle: Text(
-                      "Created on: ${date.day}/${date.month}/${date.year}"),
-                  trailing: Text(
-                      (agriModel.income - agriModel.expense).toString(),
-                      style: TextStyle(
-                          color: (agriModel.income - agriModel.expense) >= 0
-                              ? Colors.green
-                              : Colors.red)),
+                return Card(
+                  child: ListTile(
+                    tileColor: const Color.fromARGB(255, 234, 233, 233),
+                    onLongPress: () {
+                      showDialog(
+                          context: context,
+                          builder: (builder) {
+                            return AlertDialogWidget(
+                              title: "Do you want to delete",
+                              description:
+                                  "Are you sure you want to delete this FARM",
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("Cancel")),
+                                TextButton(
+                                    onPressed: () async {
+                                      context.read<AgriBloc>().add(DeleteAgri(
+                                          reference: snapshot
+                                              .data!.docs[index].reference,
+                                          income: agriModel.income,
+                                          expense: agriModel.expense));
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("OK")),
+                              ],
+                            );
+                          });
+                    },
+                    onTap: () {
+                      context.read<AgriScreenBloc>().add(AddReference(
+                          reference: snapshot.data!.docs[index].reference));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AgriScreen()));
+                    },
+                    title: Text(agriModel.name),
+                    subtitle: Text(
+                        "Created on: ${date.day}/${date.month}/${date.year}"),
+                    trailing: Text(
+                        (agriModel.income - agriModel.expense).toString(),
+                        style: TextStyle(
+                            color: (agriModel.income - agriModel.expense) >= 0
+                                ? Colors.green
+                                : Colors.red)),
+                  ),
                 );
               },
               physics: const BouncingScrollPhysics(),
             ));
           } else {
-            return const Text("No data");
+            return Column(
+              children: const [
+                LinearProgressIndicator(),
+                Text("NO DATA FOUNT"),
+              ],
+            );
           }
         });
   }

@@ -14,26 +14,27 @@ class AddAgriScreen extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           const Text(
             "ADD YOUR FARM",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              autofocus: true,
               controller: _farmController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter a name for farm"),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           BlocListener<AgriBloc, AgriState>(
@@ -45,7 +46,7 @@ class AddAgriScreen extends StatelessWidget {
               }
               // TODO: implement listener
             },
-            child: Spacer(),
+            child: const Spacer(),
           ),
           BlocBuilder<AgriBloc, AgriState>(
             builder: (context, state) {
@@ -65,7 +66,7 @@ class AddAgriScreen extends StatelessWidget {
                   });
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           )
         ],

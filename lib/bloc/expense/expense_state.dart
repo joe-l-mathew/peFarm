@@ -34,6 +34,6 @@ class ExpenseState extends Equatable {
 }
 
 class ExpenseInitial extends ExpenseState {
-  ExpenseInitial(super.isLoading, super.isCompleted, super.isFailed, super.date,
+  const ExpenseInitial(super.isLoading, super.isCompleted, super.isFailed, super.date,
       super.amount, super.title);
 }

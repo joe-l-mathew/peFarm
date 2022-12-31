@@ -18,10 +18,22 @@ class ExpenseFirestore {
     //adding the data to db
     print(
         "-------------------------------------${model.date.year}${model.date.month}");
+    double monthTotal = 0;
+    try {
+      var get = await reference
+          .collection(expenseCollection)
+          .doc("${model.date.year}${model.date.month}")
+          .get();
+      if (get.exists) {
+        var getData = get.data() as Map<String, dynamic>;
+        monthTotal = getData['amount'];
+      }
+    } catch (e) {}
     await reference
         .collection(expenseCollection)
         .doc("${model.date.year}${model.date.month}")
-        .set(DateModel(date: model.date).toMap());
+        .set(DateModel(date: model.date, amount: monthTotal + model.amount)
+            .toMap());
     await reference
         .collection(expenseCollection)
         .doc("${model.date.year}${model.date.month}")
@@ -47,8 +59,17 @@ class ExpenseFirestore {
 
   Future<void> deleteExpenseFromFirestore(
       {DocumentReference? reference, required double amount}) async {
-    //deleting file
-    await reference!.delete();
+    double monthTotal = 0;
+    try {
+      var get = await reference!.parent.parent!.get();
+      if (get.exists) {
+        var getData = get.data() as Map<String, dynamic>;
+        monthTotal = getData['amount'];
+      }
+    } catch (e) {}
+    //updating month amount
+    await reference!.parent.parent!.update({'amount': monthTotal - amount});
+    await reference.delete();
     //deleteing from parent total
     var value = await reference.parent.parent!.parent.parent!.get();
     Map<String, dynamic> mapVal = value.data() as Map<String, dynamic>;

@@ -28,7 +28,22 @@ class FirestoreAgri {
   }
 
   //delete an agri from firestore
-  Future<void> deleteAgriFromFirestore({required DocumentReference ref}) async {
+  Future<void> deleteAgriFromFirestore(
+      {required DocumentReference ref,
+      required double income,
+      required double expense}) async {
+    var get = await FirebaseFirestore.instance
+        .collection(userCollection)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    Map<String, dynamic> getMap = get.data() as Map<String, dynamic>;
+    double getIncome = getMap['income'];
+    double getExpense = getMap['expense'];
     await FirebaseFirestore.instance.doc(ref.path).delete();
+    await FirebaseFirestore.instance
+        .collection(userCollection)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update(
+            {"income": getIncome - income, "expense": getExpense - expense});
   }
 }

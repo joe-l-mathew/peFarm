@@ -31,5 +31,5 @@ class AgriState extends Equatable {
 }
 
 class AgriInitial extends AgriState {
-  AgriInitial(super.agriName, super.isLoading, super.isCompleted);
+  const AgriInitial(super.agriName, super.isLoading, super.isCompleted);
 }

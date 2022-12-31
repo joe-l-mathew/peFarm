@@ -10,11 +10,17 @@ abstract class AgriEvent extends Equatable {
 class AddAgri extends AgriEvent {
   final String agriName;
 
-  AddAgri({required this.agriName});
+  const AddAgri({required this.agriName});
 }
 
 class DeleteAgri extends AgriEvent {
   final DocumentReference reference;
+  final double income;
+  final double expense;
 
-  DeleteAgri({required this.reference});
+  const DeleteAgri({
+    required this.reference,
+    required this.income,
+    required this.expense,
+  });
 }

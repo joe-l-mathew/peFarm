@@ -21,5 +21,5 @@ class AgriScreenState extends Equatable {
 }
 
 class AgriScreenInitial extends AgriScreenState {
-  AgriScreenInitial(super.reference, super.pageIndex);
+  const AgriScreenInitial(super.reference, super.pageIndex);
 }
