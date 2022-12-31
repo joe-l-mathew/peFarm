@@ -5,6 +5,7 @@ import '../../bloc/agri_screen/agri_screen_bloc.dart';
 import 'screens/expense_screen.dart';
 import 'screens/harvest_screen.dart';
 import 'screens/income_screen.dart';
+import 'widgets/add_expense_screen.dart';
 import 'widgets/add_harvest_screen.dart';
 import 'widgets/add_income_screen.dart';
 
@@ -66,6 +67,22 @@ class AgriScreen extends StatelessWidget {
                     context: context,
                     builder: (builder) {
                       return AddIncomeScreen(
+                        incomeController: amountController,
+                        titleController: titleController,
+                      );
+                    });
+              }
+              if (state.pageIndex == 2) {
+                
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(25.0),
+                      ),
+                    ),
+                    context: context,
+                    builder: (builder) {
+                      return AddExpenseScreen(
                         incomeController: amountController,
                         titleController: titleController,
                       );

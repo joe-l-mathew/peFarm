@@ -25,9 +25,19 @@ class AgriListScreenWidget extends StatelessWidget {
             .orderBy('date', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
-          if (snapshot.hasData &&
-              snapshot.data != null &&
-              snapshot.data!.docs.isNotEmpty) {
+          if (snapshot.hasData && snapshot.data != null) {
+            if (snapshot.data!.docs.isEmpty) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  LinearProgressIndicator(),
+                  Text("NO DATA FOUND")
+                ],
+              );
+            }
+
             return Expanded(
                 child: ListView.builder(
               itemCount: snapshot.data!.docs.length,

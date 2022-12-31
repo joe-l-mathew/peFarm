@@ -45,7 +45,7 @@ class ExpandedHarvestList extends StatelessWidget {
                   ),
                 );
               }
-              return const Text("Has no data");
+              return const LinearProgressIndicator();
             });
       },
     );

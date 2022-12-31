@@ -1,16 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/agri_screen/agri_screen_bloc.dart';
-import '../../../bloc/income/income_bloc.dart';
+import '../../../bloc/expense/expense_bloc.dart';
 import '../../../functions/show_snackbar.dart';
-import '../../../models/income_model.dart';
+import '../../../models/expense_model.dart';
 import '../../widgets/loading_button_widget.dart';
 
-class AddIncomeScreen extends StatelessWidget {
-  AddIncomeScreen(
+class AddExpenseScreen extends StatelessWidget {
+  AddExpenseScreen(
       {super.key,
       required this.incomeController,
       required this.titleController});
@@ -25,7 +23,7 @@ class AddIncomeScreen extends StatelessWidget {
           height: 20,
         ),
         Text(
-          "ADD INCOME",
+          "ADD EXPENSE",
           style: TextStyle(fontSize: 20),
         ),
         SizedBox(
@@ -52,7 +50,7 @@ class AddIncomeScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            BlocBuilder<IncomeBloc, IncomeState>(
+            BlocBuilder<ExpenseBloc, ExpenseState>(
               builder: (context, state) {
                 return Text(
                   "${state.date.day}/${state.date.month}/${state.date.year}",
@@ -73,7 +71,7 @@ class AddIncomeScreen extends StatelessWidget {
                   );
                   if (newDate != null) {
                     // ignore: use_build_context_synchronously
-                    context.read<IncomeBloc>().add(UpdateDate(date: newDate));
+                    context.read<ExpenseBloc>().add(UpdateDate(date: newDate));
                   }
                 },
                 icon: const Icon(Icons.edit))
@@ -82,7 +80,7 @@ class AddIncomeScreen extends StatelessWidget {
         Spacer(),
         BlocBuilder<AgriScreenBloc, AgriScreenState>(
           builder: (context, agriState) {
-            return BlocBuilder<IncomeBloc, IncomeState>(
+            return BlocBuilder<ExpenseBloc, ExpenseState>(
               builder: (context, state) {
                 return LoadingButtonWidget(
                     text: "ADD",
@@ -92,8 +90,8 @@ class AddIncomeScreen extends StatelessWidget {
                       if (incomeController.text.isNotEmpty &&
                           titleController.text.isNotEmpty) {
                         Navigator.pop(context);
-                        context.read<IncomeBloc>().add(AddIncome(
-                            model: IncomeModel(
+                        context.read<ExpenseBloc>().add(AddExpense(
+                            model: ExpenseModel(
                                 amount: double.parse(incomeController.text),
                                 title: titleController.text,
                                 date: state.date),
