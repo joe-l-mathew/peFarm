@@ -4,7 +4,7 @@ import 'package:pinput/pinput.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../functions/show_snackbar.dart';
-import '../home/home_screen.dart';
+import '../../main.dart';
 import '../widgets/loading_button_widget.dart';
 import '../widgets/text_widget.dart';
 
@@ -48,8 +48,13 @@ class OtpScreen extends StatelessWidget {
             child: BlocListener<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state.isLoginCompleted) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (builder) => const HomeScreen()));
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => const LoadingPage()),
+                      (route) => false);
+                  // Navigator.pushReplacement(context,
+                  //     MaterialPageRoute(builder: (builder) => const HomeScreen()));
                 }
               },
               child: Pinput(
@@ -60,7 +65,6 @@ class OtpScreen extends StatelessWidget {
                 length: 6,
                 controller: otpController,
                 onCompleted: (otp) {
-                  otpController.text = otp;
                   context.read<AuthBloc>().add(SubmitOtp(otp));
                 },
               ),
@@ -75,7 +79,9 @@ class OtpScreen extends StatelessWidget {
               text: "Submit OTP",
               loadingText: "Loading",
               isLoading: state.isLoading,
-              onPressed: () {});
+              onPressed: () {
+                context.read<AuthBloc>().add(SubmitOtp(otpController.text));
+              });
         },
       ),
     );

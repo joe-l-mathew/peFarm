@@ -18,7 +18,7 @@ class AuthRepository {
       phoneNumber: '+91$phoneNumber',
       verificationCompleted: (PhoneAuthCredential credential) async {
         //what if verification is completed
-        await FirebaseAuth.instance.signInWithCredential(credential);
+        // await FirebaseAuth.instance.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
         // what if verification gets failed

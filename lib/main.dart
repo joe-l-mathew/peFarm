@@ -53,23 +53,34 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           textTheme: GoogleFonts.urbanistTextTheme(Theme.of(context).textTheme),
         ),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          // initialData: initialData,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                return const HomeScreen();
-              }
-              if (snapshot.hasError) {
-                return const ErrorScreen();
-              }
-              return PhoneNumberAuthScreen();
-            }
-            return const SplashScreen();
-          },
-        ),
+        home: LoadingPage(),
       ),
+    );
+  }
+}
+
+class LoadingPage extends StatelessWidget {
+  const LoadingPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      // initialData: initialData,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          }
+          if (snapshot.hasError) {
+            return const ErrorScreen();
+          }
+          return PhoneNumberAuthScreen();
+        }
+        return const SplashScreen();
+      },
     );
   }
 }

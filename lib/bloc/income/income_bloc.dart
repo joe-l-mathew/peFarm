@@ -29,8 +29,7 @@ class IncomeBloc extends Bloc<IncomeEvent, IncomeState> {
       // TODO: implement event handler
       await IncomeFirestore().deleteIncomeFromFirestore(
           amount: event.amount, reference: event.reference);
-      print(event.amount);
-      print(event.reference);
+      emit(state.copyWith(isLoading: false));
     });
   }
 }
